@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1031361832393",
+    "project_id": "xpify-ae401",
+    "storage_bucket": "xpify-ae401.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1031361832393:android:7d98395d79f5923f52f418",
+        "android_client_info": {
+          "package_name": "com.xptitans.xpify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1031361832393-33bicghakh55bdul7rrkk7sgb77u3725.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2dYhP7bDw56ejF7xry92YiYGGniB1DaU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1031361832393-33bicghakh55bdul7rrkk7sgb77u3725.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
