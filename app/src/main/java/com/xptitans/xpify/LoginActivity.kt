@@ -22,6 +22,7 @@ import com.google.firebase.ktx.Firebase
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.material3.Surface
+import androidx.navigation.NavController
 import com.xptitans.xpify.ui.theme.XPifyTheme
 
 class LoginActivity : ComponentActivity() {
@@ -79,7 +80,8 @@ class LoginActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginContent(onLoginClick: (String, String) -> Unit) {
+fun LoginContent(onLoginClick: (String, String) -> Unit)
+{
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
@@ -122,7 +124,9 @@ fun LoginContent(onLoginClick: (String, String) -> Unit) {
 
         Text(
             text = "Click here to register",
-            modifier = Modifier.clickable { /* Navigate to Register */ }
+            modifier = Modifier.clickable {
+                //navController.navigate(route=Screen.RegisterActivity.route)
+            }
         )
     }
 }
@@ -131,7 +135,8 @@ fun LoginContent(onLoginClick: (String, String) -> Unit) {
 fun PreviewLoginContent() {
     MaterialTheme {
         Surface {
-            LoginContent { _, _ -> }
+            LoginContent { _, _ ->}
         }
     }
+    LoginActivity()
 }
