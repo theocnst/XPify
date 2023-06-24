@@ -1,90 +1,137 @@
 package com.xptitans.xpify
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.material3.Surface
+import com.xptitans.xpify.ui.theme.XPifyTheme
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : ComponentActivity() {
+
     private lateinit var auth: FirebaseAuth
 
-    private lateinit var editTextEmail: EditText
-    private lateinit var editTextPassword: EditText
-    private lateinit var buttonLogin: Button
-    private lateinit var textView: TextView
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-    public override fun onStart() {
-        super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            reload()
+        auth = Firebase.auth
+
+        setContent {
+            XPifyTheme {
+                LoginContent { email, password ->
+                    signInWithEmailAndPassword(email, password)
+                }
+            }
         }
     }
 
-    private fun reload() {
+    override fun onStart() {
+        super.onStart()
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            navigateToMainActivity()
+        }
+    }
+
+    private fun signInWithEmailAndPassword(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(
+                        baseContext,
+                        "Authentication successful.",
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                    navigateToMainActivity()
+                } else {
+                    Toast.makeText(
+                        baseContext,
+                        "Authentication failed.",
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                }
+            }
+    }
+
+    private fun navigateToMainActivity() {
         val intent = android.content.Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
     }
+}
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LoginContent(onLoginClick: (String, String) -> Unit) {
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
 
-        auth = Firebase.auth
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = "Login",
+            modifier = Modifier.padding(bottom = 20.dp)
+        )
 
-        editTextEmail = findViewById(R.id.email)
-        editTextPassword = findViewById(R.id.password)
-        buttonLogin = findViewById(R.id.btn_login)
-        textView = findViewById(R.id.registerNow)
+        OutlinedTextField(
+            value = email,
 
-        textView.setOnClickListener {
-            val intent = android.content.Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
-            finish()
+            onValueChange = { email = it },
+            label = { Text("Email") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        OutlinedTextField(
+            value = password,
+            onValueChange = { password = it },
+            label = { Text("Password") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(onClick = { onLoginClick(email, password) }) {
+            Text("Login")
         }
 
-        buttonLogin.setOnClickListener {
-            val email = editTextEmail.text.toString()
-            val password = editTextPassword.text.toString()
+        Spacer(modifier = Modifier.height(16.dp))
 
-            if (email.isEmpty()) {
-                editTextEmail.error = "Please enter email"
-                editTextEmail.requestFocus()
-                return@setOnClickListener
-            }
-            if (password.isEmpty()) {
-                editTextPassword.error = "Please enter password"
-                editTextPassword.requestFocus()
-                return@setOnClickListener
-            }
-            auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(
-                            baseContext,
-                            "Authentication successful.",
-                            Toast.LENGTH_SHORT,
-                        ).show()
-                        val user = auth.currentUser
-                        val intent = android.content.Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Toast.makeText(
-                            baseContext,
-                            "Authentication failed.",
-                            Toast.LENGTH_SHORT,
-                        ).show()
-                    }
-                }
+        Text(
+            text = "Click here to register",
+            modifier = Modifier.clickable { /* Navigate to Register */ }
+        )
+    }
+}
+@Preview(showBackground = true)
+@Composable
+fun PreviewLoginContent() {
+    MaterialTheme {
+        Surface {
+            LoginContent { _, _ -> }
         }
     }
 }
