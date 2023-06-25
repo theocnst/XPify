@@ -14,14 +14,11 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.xptitans.xpify.viewmodels.RegisterViewModel
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreenUI(
-    email: String,
-    onEmailChange: (String) -> Unit,
-    password: String,
-    onPasswordChange: (String) -> Unit,
+    email: MutableState<String>,
+    password: MutableState<String>,
     onRegisterClick: () -> Unit,
     onLoginClick: () -> Unit
 ) {
@@ -34,13 +31,13 @@ fun RegisterScreenUI(
     ) {
         Text(
             text = "Register",
-            fontSize= 30.sp,
+            fontSize = 30.sp,
             modifier = Modifier.padding(bottom = 20.dp)
         )
 
         OutlinedTextField(
-            value = email,
-            onValueChange = onEmailChange,
+            value = email.value,
+            onValueChange = { email.value = it },
             label = { Text("Email") },
             modifier = Modifier.fillMaxWidth()
         )
@@ -48,8 +45,8 @@ fun RegisterScreenUI(
         Spacer(modifier = Modifier.height(8.dp))
 
         OutlinedTextField(
-            value = password,
-            onValueChange = onPasswordChange,
+            value = password.value,
+            onValueChange = { password.value = it },
             label = { Text("Password") },
             modifier = Modifier.fillMaxWidth()
         )
@@ -69,25 +66,23 @@ fun RegisterScreenUI(
     }
 }
 
-//Logic for the UI
+// Logic for the UI
 @Composable
 fun RegisterScreen(navController: NavController, registerViewModel: RegisterViewModel = viewModel()) {
     val context = LocalContext.current
 
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+    val email = remember { mutableStateOf("") }
+    val password = remember { mutableStateOf("") }
 
     RegisterScreenUI(
         email = email,
-        onEmailChange = { email = it },
         password = password,
-        onPasswordChange = { password = it },
         onRegisterClick = {
-            if (email.isNotEmpty() && password.isNotEmpty()) {
+            if (email.value.isNotEmpty() && password.value.isNotEmpty()) {
                 registerViewModel.createUserWithEmailAndPassword(
                     context,
-                    email,
-                    password,
+                    email.value.trim(),
+                    password.value.trim(),
                     onSuccess = { /* Navigate to the login screen or main screen */ },
                     onFailure = { /* Handle the failure */ }
                 )
@@ -101,14 +96,13 @@ fun RegisterScreen(navController: NavController, registerViewModel: RegisterView
     )
 }
 
+
 @Preview(showBackground = true)
 @Composable
 fun PreviewRegisterScreen() {
     RegisterScreenUI(
-        email = "",
-        onEmailChange = {},
-        password = "",
-        onPasswordChange = {},
+        email = remember { mutableStateOf("") },
+        password = remember { mutableStateOf("") },
         onRegisterClick = {},
         onLoginClick = {}
     )
