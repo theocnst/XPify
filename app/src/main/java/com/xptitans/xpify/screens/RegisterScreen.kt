@@ -25,8 +25,8 @@ import com.xptitans.xpify.viewmodels.RegisterViewModel
 fun RegisterScreenUI(
     email: MutableState<String>,
     password: MutableState<String>,
+    confirmPassword: MutableState<String>,
     onRegisterClick: () -> Unit,
-    onLoginClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -67,6 +67,17 @@ fun RegisterScreenUI(
             }
         )
 
+        Spacer(modifier = Modifier.height(8.dp))
+
+
+        OutlinedTextField(
+            value = confirmPassword.value,
+            onValueChange = { confirmPassword.value = it },
+            label = { Text("Confirm Password") },
+            modifier = Modifier.fillMaxWidth(),
+visualTransformation = if (passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation()
+        )
+
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = onRegisterClick) {
@@ -85,33 +96,41 @@ fun RegisterScreen(
 
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
+    val confirmPassword = remember { mutableStateOf("") }
 
     RegisterScreenUI(
         email = email,
         password = password,
+        confirmPassword = confirmPassword,
         onRegisterClick = {
-            if (email.value.isNotEmpty() && password.value.isNotEmpty()) {
-                registerViewModel.createUserWithEmailAndPassword(
-                    context,
-                    email.value.trim(),
-                    password.value.trim(),
-                    onSuccess =
-                    { /* Navigate to the login screen*/
-                        navController.navigate("login_screen")
-                    },
-                    onFailure =
-                    { /* clear the password and email fields */
-                        password.value = ""
-                        email.value = ""
-                    }
-                )
+            if (email.value.isNotEmpty() && password.value.isNotEmpty() && confirmPassword.value.isNotEmpty())
+            {
+                if(password.value==confirmPassword.value) {
+                    registerViewModel.createUserWithEmailAndPassword(
+                        context,
+                        email.value.trim(),
+                        password.value.trim(),
+                        onSuccess =
+                        { /* Navigate to the login screen*/
+                            navController.navigate("login_screen")
+                        },
+                        onFailure =
+                        { /* clear the password and email fields */
+                            password.value = ""
+                            confirmPassword.value = ""
+                            email.value = ""
+                        }
+                    )
+                }
+                else
+                {
+                    Toast.makeText(context, "Passwords do not match!", Toast.LENGTH_SHORT)
+                    .show()
+                }
             } else {
-                Toast.makeText(context, "Email and password cannot be empty", Toast.LENGTH_SHORT)
+                Toast.makeText(context, "All fields must be completed!", Toast.LENGTH_SHORT)
                     .show()
             }
-        },
-        onLoginClick = {
-            navController.navigate("login_screen")
         }
     )
 }
@@ -123,7 +142,7 @@ fun PreviewRegisterScreen() {
     RegisterScreenUI(
         email = remember { mutableStateOf("") },
         password = remember { mutableStateOf("") },
-        onRegisterClick = {},
-        onLoginClick = {}
+        confirmPassword = remember { mutableStateOf("") },
+        onRegisterClick = {}
     )
 }
