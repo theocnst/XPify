@@ -72,13 +72,6 @@ fun RegisterScreenUI(
         Button(onClick = onRegisterClick) {
             Text("Register")
         }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(
-            text = "Click here to Login",
-            modifier = Modifier.clickable(onClick = onLoginClick)
-        )
     }
 }
 
@@ -102,8 +95,15 @@ fun RegisterScreen(
                     context,
                     email.value.trim(),
                     password.value.trim(),
-                    onSuccess = { /* Navigate to the login screen or main screen */ },
-                    onFailure = { /* Handle the failure */ }
+                    onSuccess =
+                    { /* Navigate to the login screen*/
+                        navController.navigate("login_screen")
+                    },
+                    onFailure =
+                    { /* clear the password and email fields */
+                        password.value = ""
+                        email.value = ""
+                    }
                 )
             } else {
                 Toast.makeText(context, "Email and password cannot be empty", Toast.LENGTH_SHORT)

@@ -36,15 +36,45 @@ class RegisterViewModel : ViewModel() {
         Log.d("RegisterViewModel", "Email: $email")
         Log.d("RegisterViewModel", "Password: $password")
 
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Toast.makeText(context, "Account created.", Toast.LENGTH_SHORT).show()
-                    onSuccess()
+//        auth.createUserWithEmailAndPassword(email, password)
+//            .addOnCompleteListener { task ->
+//                if (task.isSuccessful) {
+//                    Toast.makeText(context, "Account created.", Toast.LENGTH_SHORT).show()
+//                    onSuccess()
+//                } else {
+//                    // Log the error message from Firebase
+//                    Log.e("RegisterViewModel", "Error: ${task.exception?.message}")
+//                    Toast.makeText(context, "Account creation failed.", Toast.LENGTH_SHORT).show()
+//                    onFailure()
+//                }
+//            }
+        auth.fetchSignInMethodsForEmail(email)
+            .addOnCompleteListener { fetchTask ->
+                if (fetchTask.isSuccessful) {
+                    val signInMethods = fetchTask.result?.signInMethods
+                    if (!signInMethods.isNullOrEmpty()) {
+                        // An account with the same email already exists
+                        Toast.makeText(context, "An account with the same email already exists", Toast.LENGTH_SHORT).show()
+                        onFailure()
+                    } else {
+                        // Create a new account
+                        auth.createUserWithEmailAndPassword(email, password)
+                            .addOnCompleteListener { createTask ->
+                                if (createTask.isSuccessful) {
+                                    Toast.makeText(context, "Account created.", Toast.LENGTH_SHORT).show()
+                                    onSuccess()
+                                } else {
+                                    // Log the error message from Firebase
+                                    Log.e("RegisterViewModel", "Error: ${createTask.exception?.message}")
+                                    Toast.makeText(context, "Account creation failed.", Toast.LENGTH_SHORT).show()
+                                    onFailure()
+                                }
+                            }
+                    }
                 } else {
                     // Log the error message from Firebase
-                    Log.e("RegisterViewModel", "Error: ${task.exception?.message}")
-                    Toast.makeText(context, "Account creation failed.", Toast.LENGTH_SHORT).show()
+                    Log.e("RegisterViewModel", "Error: ${fetchTask.exception?.message}")
+                    Toast.makeText(context, "Failed to fetch account information.", Toast.LENGTH_SHORT).show()
                     onFailure()
                 }
             }
