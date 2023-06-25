@@ -99,7 +99,10 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel) {
                     context,
                     email.value.trim(),
                     password.value.trim(),
-                    onSuccess = { /* Navigate to the main screen */ },
+                    onSuccess =
+                    { /* Navigate to the FirstPage */
+    navController.navigate("first_page")
+                    },
                     onFailure = { /* Handle the failure */ }
                 )
             } else {
