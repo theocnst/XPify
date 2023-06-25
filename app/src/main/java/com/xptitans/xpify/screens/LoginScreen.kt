@@ -7,10 +7,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
+import androidx.compose.material3.ListItemDefaults.colors
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -19,6 +21,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.xptitans.xpify.viewmodels.LoginViewModel
+import androidx.compose.ui.res.colorResource
+import com.xptitans.xpify.R
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -73,12 +78,26 @@ fun LoginScreenUI(
             Text("Login")
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+    }
 
-        Text(
-            text = "Click here to Register",
-            modifier = Modifier.clickable(onClick = onRegisterClick)
-        )
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Bottom
+    )
+    {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(text = "Don't have an account? ")
+            Text(
+                text = "Register",
+               //get the color from colors.xml file by the name i have given
+                color = colorResource(id = R.color.registerFromLogin),
+                modifier = Modifier.clickable(onClick = onRegisterClick)
+            )
+        }
+        Spacer(modifier = Modifier.height(60.dp))
     }
 }
 

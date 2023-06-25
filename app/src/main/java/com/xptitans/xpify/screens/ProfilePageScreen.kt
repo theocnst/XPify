@@ -1,5 +1,6 @@
 package com.xptitans.xpify.screens
 
+import android.provider.ContactsContract.CommonDataKinds.Email
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,37 +14,25 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.xptitans.xpify.viewmodels.FirstPageViewModel
+import com.xptitans.xpify.navigation.Screen
+import com.xptitans.xpify.viewmodels.ProfilePageViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FirstPageScreenUI(
-    firstPageViewModel: FirstPageViewModel,
-    navController: NavController
+fun ProfilePageScreenUI(
+    profilePageViewModel: ProfilePageViewModel
 ) {
-    Box(modifier = Modifier.fillMaxSize())
-    {
-        Button(
-            onClick = { navController.navigate("profile_page") },
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(end = 16.dp, top = 5.dp)
 
-        ) {
-            Icon(Icons.Filled.Person, contentDescription = "Profile Icon", modifier = Modifier.size(20.dp))
-        }
-    }
-
-    val currentUserEmail = firstPageViewModel.getCurrentUser() ?: "Unknown"
-
+    val currentUserEmail = profilePageViewModel.getCurrentUser() ?: "Unknown"
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -52,7 +41,7 @@ fun FirstPageScreenUI(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Welcome to Xpify",
+            text = "Welcome to your profile",
             fontSize = 30.sp,
             modifier = Modifier.padding(bottom = 20.dp)
         )
@@ -68,30 +57,26 @@ fun FirstPageScreenUI(
 
 //Logic for the UI
 @Composable
-fun FirstPageScreen(
-    firstPageViewModel: FirstPageViewModel = viewModel(),
-    navController: NavController
+fun ProfilePageScreen(
+    profilePageViewModel: ProfilePageViewModel = viewModel(),
 ) {
-    FirstPageScreenUI(
-        firstPageViewModel = firstPageViewModel,
-        navController = navController
+    ProfilePageScreenUI(
+        profilePageViewModel = profilePageViewModel
     )
 }
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewFirstPageScreen() {
-    val mockViewModel = object : FirstPageViewModel() {
+fun PreviewProfilePageScreen() {
+    val mockViewModel = object : ProfilePageViewModel() {
         override fun getCurrentUser(): String? {
             // Return a mock user email for the preview
             return "example@example.com"
         }
     }
-    val navControl = rememberNavController()
 
-    FirstPageScreenUI(
-        //firstPageViewModel = FirstPageViewModel()
-        firstPageViewModel = mockViewModel,
-        navController=navControl
+    ProfilePageScreenUI(
+        //profilePageViewModel = ProfilePageViewModel()
+        profilePageViewModel = mockViewModel
     )
 }

@@ -7,9 +7,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.xptitans.xpify.screens.FirstPageScreen
 import com.xptitans.xpify.screens.LoginScreen
+import com.xptitans.xpify.screens.ProfilePageScreen
 import com.xptitans.xpify.screens.RegisterScreen
 import com.xptitans.xpify.viewmodels.FirstPageViewModel
 import com.xptitans.xpify.viewmodels.LoginViewModel
+import com.xptitans.xpify.viewmodels.ProfilePageViewModel
 import com.xptitans.xpify.viewmodels.RegisterViewModel
 
 @Composable
@@ -23,13 +25,14 @@ fun SetupNavGraph(navController: NavHostController) {
             val registerViewModel: RegisterViewModel = viewModel()
             RegisterScreen(navController = navController, registerViewModel = registerViewModel)
         }
-
         composable(route = "first_page") {
             val firstPageViewModel: FirstPageViewModel = viewModel()
-            FirstPageScreen(firstPageViewModel = firstPageViewModel)
+            FirstPageScreen(firstPageViewModel = firstPageViewModel, navController = navController)
         }
-
-
+        composable(route = "profile_page") {
+            val profilePageViewModel: ProfilePageViewModel = viewModel()
+            ProfilePageScreen(profilePageViewModel = profilePageViewModel)
+        }
     }
 }
 
