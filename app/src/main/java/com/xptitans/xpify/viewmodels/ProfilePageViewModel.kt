@@ -12,4 +12,8 @@ open class ProfilePageViewModel : ViewModel()
         val user = auth.currentUser
         return user?.email
     }
+
+    fun logout() {
+        auth.signOut()
+    }
 }

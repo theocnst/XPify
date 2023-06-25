@@ -29,7 +29,8 @@ import com.xptitans.xpify.viewmodels.ProfilePageViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfilePageScreenUI(
-    profilePageViewModel: ProfilePageViewModel
+    profilePageViewModel: ProfilePageViewModel,
+    onLogoutClick: () -> Unit
 ) {
 
     val currentUserEmail = profilePageViewModel.getCurrentUser() ?: "Unknown"
@@ -50,6 +51,12 @@ fun ProfilePageScreenUI(
             modifier = Modifier.padding(bottom = 20.dp)
         )
 
+        Button(
+            onClick = onLogoutClick,
+            modifier = Modifier.padding(top = 16.dp)
+        ) {
+            Text("Logout")
+        }
     }
 
 
@@ -59,9 +66,14 @@ fun ProfilePageScreenUI(
 @Composable
 fun ProfilePageScreen(
     profilePageViewModel: ProfilePageViewModel = viewModel(),
+    onLogoutClick: () -> Unit
 ) {
     ProfilePageScreenUI(
-        profilePageViewModel = profilePageViewModel
+        profilePageViewModel = profilePageViewModel,
+        onLogoutClick = {
+profilePageViewModel.logout()
+            onLogoutClick()
+        }
     )
 }
 
@@ -77,6 +89,7 @@ fun PreviewProfilePageScreen() {
 
     ProfilePageScreenUI(
         //profilePageViewModel = ProfilePageViewModel()
-        profilePageViewModel = mockViewModel
+        profilePageViewModel = mockViewModel,
+        onLogoutClick = {}
     )
 }

@@ -31,7 +31,9 @@ fun SetupNavGraph(navController: NavHostController) {
         }
         composable(route = "profile_page") {
             val profilePageViewModel: ProfilePageViewModel = viewModel()
-            ProfilePageScreen(profilePageViewModel = profilePageViewModel)
+            ProfilePageScreen(profilePageViewModel = profilePageViewModel, onLogoutClick = {
+                navController.navigate("login_screen")
+            })
         }
     }
 }
