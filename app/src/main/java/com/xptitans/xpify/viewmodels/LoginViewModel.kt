@@ -9,7 +9,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 class LoginViewModel : ViewModel() {
-
     private val auth: FirebaseAuth = Firebase.auth
 
     fun signInWithEmailAndPassword(

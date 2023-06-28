@@ -1,4 +1,4 @@
-package com.xptitans.xpify.navigation.bar
+package com.xptitans.xpify.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home

@@ -13,8 +13,8 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.xptitans.xpify.navigation.bar.BottomBarScreen
-import com.xptitans.xpify.navigation.bar.BottomNavGraph
+import com.xptitans.xpify.navigation.BottomBarScreen
+import com.xptitans.xpify.navigation.graphs.BottomNavGraph
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 
@@ -23,14 +23,22 @@ import androidx.compose.material.BottomNavigationItem
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
+    // Check if current route is not the login or register screen
+    val isNotAuthScreen = currentRoute != "login_screen" && currentRoute != "register_screen"
     Scaffold(
         bottomBar = {
-            BottomBar(navController = navController)
+            if (isNotAuthScreen) { // Show BottomBar only if not in login or register screen
+                BottomBar(navController = navController)
+            }
         }
     ) {
         BottomNavGraph(navController = navController)
     }
 }
+
 
 @Composable
 fun BottomBar(navController: NavHostController) {

@@ -101,8 +101,9 @@ fun LoginScreenUI(
 fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel) {
     val context = LocalContext.current
 
-    val email = remember { mutableStateOf("") }
-    val password = remember { mutableStateOf("") }
+    // Set default values for easier testing
+    val email = remember { mutableStateOf("test@test.com") }
+    val password = remember { mutableStateOf("testul") }
 
     LoginScreenUI(
         email = email,

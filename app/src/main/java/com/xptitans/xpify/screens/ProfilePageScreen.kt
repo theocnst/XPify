@@ -66,15 +66,15 @@ fun ProfilePageScreen(
         onLogoutClick = {
             profilePageViewModel.logout()
             onLogoutClick()
-            //create a new instance of MainActivity
-            navController.navigate(Screen.LoginScreen.route) {
-                popUpTo(Screen.LoginScreen.route) {
+            navController.navigate("login_screen") { // Navigate to "main_screen" route
+                popUpTo("login_screen") { // Clear back stack and create a new instance of the main NavGraph
                     inclusive = true
                 }
             }
         }
     )
 }
+
 
 @Preview(showBackground = true)
 @Composable
