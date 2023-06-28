@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.xptitans.xpify.viewmodels.LoginViewModel
 import androidx.compose.ui.res.colorResource
+import com.xptitans.xpify.MainScreen
 import com.xptitans.xpify.R
 
 
@@ -120,7 +121,7 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel) {
                     password.value.trim(),
                     onSuccess =
                     { /* Navigate to the FirstPage */
-    navController.navigate("first_page")
+    navController.navigate("main_screen")
                     },
                     onFailure = { /* Handle the failure */ }
                 )

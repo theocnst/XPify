@@ -5,6 +5,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.xptitans.xpify.MainScreen
 import com.xptitans.xpify.screens.FirstPageScreen
 import com.xptitans.xpify.screens.LoginScreen
 import com.xptitans.xpify.screens.ProfilePageScreen
@@ -29,12 +30,12 @@ fun SetupNavGraph(navController: NavHostController) {
             val firstPageViewModel: FirstPageViewModel = viewModel()
             FirstPageScreen(firstPageViewModel = firstPageViewModel, navController = navController)
         }
-        composable(route = "profile_page") {
-            val profilePageViewModel: ProfilePageViewModel = viewModel()
-            ProfilePageScreen(profilePageViewModel = profilePageViewModel, onLogoutClick = {
-                navController.navigate("login_screen")
-            })
+
+        composable(route="main_screen")
+        {
+            MainScreen()
         }
+
     }
 }
 
