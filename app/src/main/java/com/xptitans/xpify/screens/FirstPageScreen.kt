@@ -38,7 +38,11 @@ fun FirstPageScreenUI(
                 .padding(end = 16.dp, top = 5.dp)
 
         ) {
-            Icon(Icons.Filled.Person, contentDescription = "Profile Icon", modifier = Modifier.size(20.dp))
+            Icon(
+                Icons.Filled.Person,
+                contentDescription = "Profile Icon",
+                modifier = Modifier.size(20.dp)
+            )
         }
     }
 
@@ -60,10 +64,7 @@ fun FirstPageScreenUI(
             text = "Hello, $currentUserEmail",
             modifier = Modifier.padding(bottom = 20.dp)
         )
-
     }
-
-
 }
 
 //Logic for the UI
@@ -92,6 +93,6 @@ fun PreviewFirstPageScreen() {
     FirstPageScreenUI(
         //firstPageViewModel = FirstPageViewModel()
         firstPageViewModel = mockViewModel,
-        navController=navControl
+        navController = navControl
     )
 }

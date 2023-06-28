@@ -12,6 +12,4 @@ open class FirstPageViewModel : ViewModel()
         val user = auth.currentUser
         return user?.email
     }
-
-
 }

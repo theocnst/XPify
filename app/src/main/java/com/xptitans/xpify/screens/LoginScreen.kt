@@ -7,23 +7,19 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
-import androidx.compose.material3.ListItemDefaults.colors
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.xptitans.xpify.viewmodels.LoginViewModel
-import androidx.compose.ui.res.colorResource
-import com.xptitans.xpify.MainScreen
 import com.xptitans.xpify.R
+import com.xptitans.xpify.viewmodels.LoginViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -78,9 +74,7 @@ fun LoginScreenUI(
         Button(onClick = onLoginClick) {
             Text("Login")
         }
-
     }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -93,7 +87,7 @@ fun LoginScreenUI(
             Text(text = "Don't have an account? ")
             Text(
                 text = "Register",
-               //get the color from colors.xml file by the name i have given
+                //get the color from colors.xml file by the name i have given
                 color = colorResource(id = R.color.registerFromLogin),
                 modifier = Modifier.clickable(onClick = onRegisterClick)
             )
@@ -121,7 +115,7 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel) {
                     password.value.trim(),
                     onSuccess =
                     { /* Navigate to the FirstPage */
-    navController.navigate("main_screen")
+                        navController.navigate("main_screen")
                     },
                     onFailure = { /* Handle the failure */ }
                 )
