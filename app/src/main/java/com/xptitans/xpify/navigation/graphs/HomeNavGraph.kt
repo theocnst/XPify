@@ -9,8 +9,11 @@ import com.xptitans.xpify.screens.FirstPageScreen
 import com.xptitans.xpify.screens.ProfilePageScreen
 
 @Composable
-fun BottomNavGraph(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = BottomBarScreen.FirstPage.route)
+fun HomeNavGraph(navController: NavHostController) {
+    NavHost(
+        navController = navController,
+        route = Graph.HOME,
+        startDestination = BottomBarScreen.FirstPage.route)
     {
         composable(BottomBarScreen.FirstPage.route)
         {
@@ -18,7 +21,7 @@ fun BottomNavGraph(navController: NavHostController) {
         }
         composable(BottomBarScreen.ProfilePage.route)
         {
-            ProfilePageScreen(navController=navController, onLogoutClick = {})
+            ProfilePageScreen(navController=navController)
         }
     }
 }

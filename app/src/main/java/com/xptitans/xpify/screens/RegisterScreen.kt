@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.xptitans.xpify.navigation.graphs.AuthScreen
 import com.xptitans.xpify.viewmodels.RegisterViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -75,7 +76,7 @@ fun RegisterScreenUI(
             onValueChange = { confirmPassword.value = it },
             label = { Text("Confirm Password") },
             modifier = Modifier.fillMaxWidth(),
-visualTransformation = if (passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation()
+            visualTransformation = if (passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation()
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -103,16 +104,15 @@ fun RegisterScreen(
         password = password,
         confirmPassword = confirmPassword,
         onRegisterClick = {
-            if (email.value.isNotEmpty() && password.value.isNotEmpty() && confirmPassword.value.isNotEmpty())
-            {
-                if(password.value==confirmPassword.value) {
+            if (email.value.isNotEmpty() && password.value.isNotEmpty() && confirmPassword.value.isNotEmpty()) {
+                if (password.value == confirmPassword.value) {
                     registerViewModel.createUserWithEmailAndPassword(
                         context,
                         email.value.trim(),
                         password.value.trim(),
                         onSuccess =
                         { /* Navigate to the login screen*/
-                            navController.navigate("login_screen")
+                            navController.navigate(AuthScreen.Login.route)
                         },
                         onFailure =
                         { /* clear the password and email fields */
@@ -121,11 +121,9 @@ fun RegisterScreen(
                             email.value = ""
                         }
                     )
-                }
-                else
-                {
+                } else {
                     Toast.makeText(context, "Passwords do not match!", Toast.LENGTH_SHORT)
-                    .show()
+                        .show()
                 }
             } else {
                 Toast.makeText(context, "All fields must be completed!", Toast.LENGTH_SHORT)

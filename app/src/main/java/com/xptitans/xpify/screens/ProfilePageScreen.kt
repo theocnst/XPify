@@ -16,9 +16,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.xptitans.xpify.navigation.Screen
+import com.xptitans.xpify.navigation.graphs.Graph
 import com.xptitans.xpify.viewmodels.ProfilePageViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfilePageScreenUI(
     profilePageViewModel: ProfilePageViewModel,
@@ -50,27 +50,20 @@ fun ProfilePageScreenUI(
             Text("Logout")
         }
     }
-
-
 }
 
 //Logic for the UI
 @Composable
 fun ProfilePageScreen(
     profilePageViewModel: ProfilePageViewModel = viewModel(),
-    onLogoutClick: () -> Unit,
     navController: NavController
 ) {
     ProfilePageScreenUI(
         profilePageViewModel = profilePageViewModel,
         onLogoutClick = {
             profilePageViewModel.logout()
-            onLogoutClick()
-            navController.navigate("login_screen") { // Navigate to "main_screen" route
-                popUpTo("login_screen") { // Clear back stack and create a new instance of the main NavGraph
-                    inclusive = true
-                }
-            }
+            navController.popBackStack()
+            navController.navigate(Graph.AUTHENTICATION)
         }
     )
 }

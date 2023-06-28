@@ -19,6 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.xptitans.xpify.R
+import com.xptitans.xpify.navigation.graphs.AuthScreen
+import com.xptitans.xpify.navigation.graphs.Graph
 import com.xptitans.xpify.viewmodels.LoginViewModel
 
 
@@ -115,8 +117,9 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel) {
                     email.value.trim(),
                     password.value.trim(),
                     onSuccess =
-                    { /* Navigate to the FirstPage */
-                        navController.navigate("main_screen")
+                    { /* Navigate to Home Graph */
+                        navController.popBackStack()
+                        navController.navigate(Graph.HOME)
                     },
                     onFailure = { /* Handle the failure */ }
                 )
@@ -126,7 +129,7 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel) {
             }
         },
         onRegisterClick = {
-            navController.navigate("register_screen")
+            navController.navigate(AuthScreen.Register.route)
         }
     )
 }

@@ -14,28 +14,24 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.xptitans.xpify.navigation.BottomBarScreen
-import com.xptitans.xpify.navigation.graphs.BottomNavGraph
+import com.xptitans.xpify.navigation.graphs.HomeNavGraph
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
+fun HomeScreen() {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    // Check if current route is not the login or register screen
-    val isNotAuthScreen = currentRoute != "login_screen" && currentRoute != "register_screen"
     Scaffold(
         bottomBar = {
-            if (isNotAuthScreen) { // Show BottomBar only if not in login or register screen
-                BottomBar(navController = navController)
-            }
+            BottomBar(navController = navController)
         }
     ) {
-        BottomNavGraph(navController = navController)
+        HomeNavGraph(navController = navController)
     }
 }
 
