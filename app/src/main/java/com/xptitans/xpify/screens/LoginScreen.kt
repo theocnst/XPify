@@ -2,10 +2,14 @@ package com.xptitans.xpify.screens
 
 import android.graphics.RuntimeShader
 import android.widget.Toast
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -18,6 +22,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -130,11 +136,12 @@ fun LoginScreenUI(
                 val isPressed by interactionSource.collectIsPressedAsState()
                 val unpressedColor = Color(0xFFDB4581)
                 val color = if (isPressed) Color.Blue else unpressedColor
+                val shape = if (isPressed) MaterialTheme.shapes.extraLarge else MaterialTheme.shapes.medium
 
                 Button(onClick = onLoginClick,
                     interactionSource= interactionSource,
                     colors = ButtonDefaults.buttonColors(color),
-
+                    shape=shape
                 ) {
                     Text("Login")
                 }
@@ -161,9 +168,7 @@ fun LoginScreenUI(
         }
     )
 
-
 }
-
 // Logic for the UI
 @Composable
 fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel) {
@@ -201,6 +206,7 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel) {
         }
     )
 }
+
 @Preview(showBackground = true)
 @Composable
 fun PreviewLoginScreen() {

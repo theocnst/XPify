@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="registerFromLogin">#D82C5D</color>
     <color name="loginButtonFromLogin">#D82C5D</color>
+    <color name="button_pressed_color">#9510C5</color>
+    <color name="button_unpressed_color">#48B6A6</color>
 </resources>
