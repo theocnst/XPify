@@ -17,6 +17,7 @@ import com.xptitans.xpify.navigation.BottomBarScreen
 import com.xptitans.xpify.navigation.graphs.HomeNavGraph
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.ui.tooling.preview.Preview
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)

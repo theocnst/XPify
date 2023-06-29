@@ -1,5 +1,6 @@
 package com.xptitans.xpify.screens
 
+import android.graphics.RuntimeShader
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -10,6 +11,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -29,62 +33,97 @@ fun RegisterScreenUI(
     confirmPassword: MutableState<String>,
     onRegisterClick: () -> Unit,
 ) {
-    Column(
+
+    val Coral = Color(0xFFF3A397)
+    val LightYellow = Color(0xFFF8EE94)
+    Box(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = "Register",
-            fontSize = 30.sp,
-            modifier = Modifier.padding(bottom = 20.dp)
-        )
-
-        OutlinedTextField(
-            value = email.value,
-            onValueChange = { email.value = it },
-            label = { Text("Email") },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        val passwordVisible = remember { mutableStateOf(false) }
-        OutlinedTextField(
-            value = password.value,
-            onValueChange = { password.value = it },
-            label = { Text("Password") },
-            modifier = Modifier.fillMaxWidth(),
-            visualTransformation = if (passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
-            trailingIcon = {
-                IconButton(onClick = { passwordVisible.value = !passwordVisible.value }) {
-                    Icon(
-                        imageVector = if (passwordVisible.value) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                        contentDescription = "Toggle password visibility"
+            .drawWithCache {
+                val shader = RuntimeShader(CUSTOM_SHADER)
+                val shaderBrush = ShaderBrush(shader)
+                shader.setFloatUniform("resolution", size.width, size.height)
+                onDrawBehind {
+                    shader.setColorUniform(
+                        "color",
+                        android.graphics.Color.valueOf(
+                            LightYellow.red, LightYellow.green,
+                            LightYellow
+                                .blue,
+                            LightYellow.alpha
+                        )
                     )
+                    shader.setColorUniform(
+                        "color2",
+                        android.graphics.Color.valueOf(
+                            Coral.red,
+                            Coral.green,
+                            Coral.blue,
+                            Coral.alpha
+                        )
+                    )
+                    drawRect(shaderBrush)
                 }
             }
-        )
+            .fillMaxWidth(),
+        content={
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "Register",
+                    fontSize = 30.sp,
+                    modifier = Modifier.padding(bottom = 20.dp)
+                )
 
-        Spacer(modifier = Modifier.height(8.dp))
+                OutlinedTextField(
+                    value = email.value,
+                    onValueChange = { email.value = it },
+                    label = { Text("Email") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                val passwordVisible = remember { mutableStateOf(false) }
+                OutlinedTextField(
+                    value = password.value,
+                    onValueChange = { password.value = it },
+                    label = { Text("Password") },
+                    modifier = Modifier.fillMaxWidth(),
+                    visualTransformation = if (passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
+                    trailingIcon = {
+                        IconButton(onClick = { passwordVisible.value = !passwordVisible.value }) {
+                            Icon(
+                                imageVector = if (passwordVisible.value) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
+                                contentDescription = "Toggle password visibility"
+                            )
+                        }
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
 
 
-        OutlinedTextField(
-            value = confirmPassword.value,
-            onValueChange = { confirmPassword.value = it },
-            label = { Text("Confirm Password") },
-            modifier = Modifier.fillMaxWidth(),
-            visualTransformation = if (passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation()
-        )
+                OutlinedTextField(
+                    value = confirmPassword.value,
+                    onValueChange = { confirmPassword.value = it },
+                    label = { Text("Confirm Password") },
+                    modifier = Modifier.fillMaxWidth(),
+                    visualTransformation = if (passwordVisible.value) VisualTransformation.None else PasswordVisualTransformation()
+                )
 
-        Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = onRegisterClick) {
-            Text("Register")
+                Button(onClick = onRegisterClick) {
+                    Text("Register")
+                }
+            }
         }
-    }
+    )
 }
 
 // Logic for the UI
