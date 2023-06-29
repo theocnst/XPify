@@ -1,7 +1,9 @@
 package com.xptitans.xpify.feature_xpify.presentation.home.components
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -17,6 +19,10 @@ import com.xptitans.xpify.feature_xpify.navigation.BottomBarScreen
 import com.xptitans.xpify.feature_xpify.navigation.graphs.BottomNavGraph
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import com.xptitans.xpify.feature_xpify.navigation.graphs.AuthScreen
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -40,6 +46,7 @@ fun HomeScreen() {
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun BottomBar(navController: NavHostController) {
     val screens = listOf(
@@ -51,7 +58,7 @@ fun BottomBar(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    BottomNavigation {
+    BottomNavigation{
         screens.forEach { screen ->
             AddItem(
                 screen = screen,
