@@ -35,11 +35,8 @@ fun ProfilePageScreenUI(
             Brush.linearGradient
                 (
                 colors = listOf(
-
-                    Color(0xFF00BFFF),
-                    Color(0xFF87CEFA),
-                    Color(0xFF87CEEB),
-                    Color(0xFF00BFFF),
+                    Color(0xFFF3A397),
+                    Color(0xFFF8EE94)
                 )
             )
         ),

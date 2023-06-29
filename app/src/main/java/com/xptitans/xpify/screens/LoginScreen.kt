@@ -2,6 +2,7 @@ package com.xptitans.xpify.screens
 
 import android.graphics.RuntimeShader
 import android.widget.Toast
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,16 +18,32 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.ShaderBrush
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.scale
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.modifier.modifierLocalMapOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -99,12 +116,8 @@ fun LoginScreenUI(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Text(
-                    text = "Login",
-                    fontSize = 30.sp,
-                    modifier = Modifier.padding(bottom = 20.dp)
-                )
-
+                TicketComposable(modifier = Modifier)
+                Spacer(modifier = Modifier.height(16.dp))
                 OutlinedTextField(
                     value = email.value,
                     onValueChange = { email.value = it },
@@ -167,8 +180,115 @@ fun LoginScreenUI(
             }
         }
     )
-
 }
+
+class TicketShape(private val cornerRadius: Float) : Shape {
+
+    override fun createOutline(
+        size: Size,
+        layoutDirection: LayoutDirection,
+        density: Density
+    ): Outline {
+        return Outline.Generic(
+            // Draw your custom path here
+            path = drawTicketPath(size = size, cornerRadius = cornerRadius)
+        )
+    }
+}
+
+fun drawTicketPath(size: Size, cornerRadius: Float): Path {
+    return Path().apply {
+        reset()
+        // Top left arc
+        arcTo(
+            rect = Rect(
+                left = -cornerRadius,
+                top = -cornerRadius,
+                right = cornerRadius,
+                bottom = cornerRadius
+            ),
+            startAngleDegrees = 90.0f,
+            sweepAngleDegrees = -90.0f,
+            forceMoveTo = false
+        )
+        lineTo(x = size.width - cornerRadius, y = 0f)
+        // Top right arc
+        arcTo(
+            rect = Rect(
+                left = size.width - cornerRadius,
+                top = -cornerRadius,
+                right = size.width + cornerRadius,
+                bottom = cornerRadius
+            ),
+            startAngleDegrees = 180.0f,
+            sweepAngleDegrees = -90.0f,
+            forceMoveTo = false
+        )
+        lineTo(x = size.width, y = size.height - cornerRadius)
+        // Bottom right arc
+        arcTo(
+            rect = Rect(
+                left = size.width - cornerRadius,
+                top = size.height - cornerRadius,
+                right = size.width + cornerRadius,
+                bottom = size.height + cornerRadius
+            ),
+            startAngleDegrees = 270.0f,
+            sweepAngleDegrees = -90.0f,
+            forceMoveTo = false
+        )
+        lineTo(x = cornerRadius, y = size.height)
+        // Bottom left arc
+        arcTo(
+            rect = Rect(
+                left = -cornerRadius,
+                top = size.height - cornerRadius ,
+                right = cornerRadius,
+                bottom = size.height + cornerRadius
+            ),
+            startAngleDegrees = 0.0f,
+            sweepAngleDegrees = -90.0f,
+            forceMoveTo = false
+        )
+        lineTo(x = 0f, y = cornerRadius)
+        close()
+    }
+}
+
+@Composable
+fun TicketComposable(modifier: Modifier) {
+    androidx.compose.material.Text(
+        text = "🎉 LOGIN 🎉",
+        style = TextStyle(
+            color = Color.White,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Black,
+        ),
+        textAlign = TextAlign.Center,
+        modifier = modifier
+            .wrapContentSize()
+            .graphicsLayer {
+                shadowElevation = 15.dp.toPx()
+                shape = TicketShape(24.dp.toPx())
+                clip = true
+            }
+            .background(color = Color.Black)
+            .drawBehind {
+                scale(scale = 0.9f) {
+                    drawPath(
+                        path = drawTicketPath(size = size, cornerRadius = 24.dp.toPx()),
+                        color =  Color(0xFFDB4581),
+                        style = Stroke(
+                            width = 2.dp.toPx(),
+                            pathEffect = PathEffect.dashPathEffect(floatArrayOf(15f, 15f))
+                        )
+                    )
+                }
+            }
+            .padding(start = 40.dp, top = 15.dp, end = 40.dp, bottom = 15.dp)
+    )
+}
+
 // Logic for the UI
 @Composable
 fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel) {
@@ -205,6 +325,7 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel) {
             navController.navigate(AuthScreen.Register.route)
         }
     )
+
 }
 
 @Preview(showBackground = true)
