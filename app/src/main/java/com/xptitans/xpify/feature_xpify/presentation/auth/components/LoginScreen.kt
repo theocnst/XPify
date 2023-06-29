@@ -1,16 +1,12 @@
-package com.xptitans.xpify.screens
+package com.xptitans.xpify.feature_xpify.presentation.auth.components
 
 import android.graphics.RuntimeShader
 import android.widget.Toast
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -31,11 +27,8 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.modifier.modifierLocalMapOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -48,9 +41,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.xptitans.xpify.R
-import com.xptitans.xpify.navigation.graphs.AuthScreen
-import com.xptitans.xpify.navigation.graphs.Graph
-import com.xptitans.xpify.viewmodels.LoginViewModel
+import com.xptitans.xpify.feature_xpify.navigation.graphs.AuthScreen
+import com.xptitans.xpify.feature_xpify.navigation.graphs.Graph
+import com.xptitans.xpify.feature_xpify.presentation.auth.LoginViewModel
 import org.intellij.lang.annotations.Language
 
 

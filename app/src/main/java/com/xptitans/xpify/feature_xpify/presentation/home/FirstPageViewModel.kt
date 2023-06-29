@@ -1,4 +1,4 @@
-package com.xptitans.xpify.viewmodels
+package com.xptitans.xpify.feature_xpify.presentation.home
 
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth

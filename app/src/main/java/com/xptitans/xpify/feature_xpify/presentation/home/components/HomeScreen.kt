@@ -1,4 +1,4 @@
-package com.xptitans.xpify.screens
+package com.xptitans.xpify.feature_xpify.presentation.home.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.RowScope
@@ -13,11 +13,10 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.xptitans.xpify.navigation.BottomBarScreen
-import com.xptitans.xpify.navigation.graphs.HomeNavGraph
+import com.xptitans.xpify.feature_xpify.navigation.BottomBarScreen
+import com.xptitans.xpify.feature_xpify.navigation.graphs.BottomNavGraph
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
-import androidx.compose.ui.tooling.preview.Preview
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,17 +31,18 @@ fun HomeScreen() {
             BottomBar(navController = navController)
         }
     ) {
-        HomeNavGraph(navController = navController)
+        BottomNavGraph(navController = navController)
     }
 }
-
 
 @Composable
 fun BottomBar(navController: NavHostController) {
     val screens = listOf(
         BottomBarScreen.FirstPage,
+        BottomBarScreen.HabitScreen,
         BottomBarScreen.ProfilePage
     )
+
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 

@@ -1,4 +1,4 @@
-package com.xptitans.xpify.screens
+package com.xptitans.xpify.feature_xpify.presentation.home.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.xptitans.xpify.navigation.graphs.Graph
-import com.xptitans.xpify.viewmodels.ProfilePageViewModel
+import com.xptitans.xpify.feature_xpify.navigation.graphs.Graph
+import com.xptitans.xpify.feature_xpify.presentation.home.ProfilePageViewModel
 
 @Composable
 fun ProfilePageScreenUI(
@@ -67,9 +67,7 @@ fun ProfilePageScreenUI(
                 }
             }
         }
-
     )
-
 }
 
 //Logic for the UI

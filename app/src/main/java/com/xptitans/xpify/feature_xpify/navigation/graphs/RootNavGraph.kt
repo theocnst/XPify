@@ -1,10 +1,10 @@
-package com.xptitans.xpify.navigation.graphs
+package com.xptitans.xpify.feature_xpify.navigation.graphs
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.xptitans.xpify.screens.HomeScreen
+import com.xptitans.xpify.feature_xpify.presentation.home.components.HomeScreen
 
 
 @Composable

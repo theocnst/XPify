@@ -1,4 +1,4 @@
-package com.xptitans.xpify.viewmodels
+package com.xptitans.xpify.feature_xpify.presentation.auth
 
 import android.content.Context
 import android.util.Log

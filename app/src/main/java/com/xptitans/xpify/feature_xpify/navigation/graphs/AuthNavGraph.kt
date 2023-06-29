@@ -1,14 +1,14 @@
-package com.xptitans.xpify.navigation.graphs
+package com.xptitans.xpify.feature_xpify.navigation.graphs
 
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.xptitans.xpify.screens.LoginScreen
-import com.xptitans.xpify.screens.RegisterScreen
-import com.xptitans.xpify.viewmodels.LoginViewModel
-import com.xptitans.xpify.viewmodels.RegisterViewModel
+import com.xptitans.xpify.feature_xpify.presentation.auth.components.LoginScreen
+import com.xptitans.xpify.feature_xpify.presentation.auth.components.RegisterScreen
+import com.xptitans.xpify.feature_xpify.presentation.auth.LoginViewModel
+import com.xptitans.xpify.feature_xpify.presentation.auth.RegisterViewModel
 
 fun NavGraphBuilder.authNavGraph(navController: NavHostController) {
     navigation(

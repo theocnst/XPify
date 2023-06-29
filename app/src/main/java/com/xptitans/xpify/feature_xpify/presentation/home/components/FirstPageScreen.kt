@@ -1,4 +1,4 @@
-package com.xptitans.xpify.screens
+package com.xptitans.xpify.feature_xpify.presentation.home.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,16 +23,13 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.xptitans.xpify.viewmodels.FirstPageViewModel
+import com.xptitans.xpify.feature_xpify.presentation.home.FirstPageViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FirstPageScreenUI(
     firstPageViewModel: FirstPageViewModel,
     navController: NavController
 ) {
-
-
     Box(modifier = Modifier
         .fillMaxSize()
         .background(
@@ -110,7 +106,6 @@ fun PreviewFirstPageScreen() {
     val navControl = rememberNavController()
 
     FirstPageScreenUI(
-        //firstPageViewModel = FirstPageViewModel()
         firstPageViewModel = mockViewModel,
         navController = navControl
     )
