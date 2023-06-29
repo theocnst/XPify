@@ -4,5 +4,6 @@ data class HabitUseCases(
     val getHabits: GetHabits,
     val deleteHabit: DeleteHabit,
     val addHabit: AddHabit,
-    val getHabit: GetHabit
+    val getHabit: GetHabit,
+    val refreshHabitsFromAPI: RefreshHabits
 )

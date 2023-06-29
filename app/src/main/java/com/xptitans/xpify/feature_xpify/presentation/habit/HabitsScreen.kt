@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -42,122 +43,135 @@ fun HabitsScreen(
     val LightYellow = Color(0xFFF8EE94)
 
 
-            Scaffold(
-                floatingActionButton = {
-                    FloatingActionButton(
-                        modifier = Modifier
-                            .padding(bottom = 55.dp),
-                        onClick = {
-                            navController.navigate(HabitPageScreen.AddEditHabitScreen.route)
-                        },
-                        backgroundColor = MaterialTheme.colors.primary
-                    ) {
-                        Icon(imageVector = Icons.Default.Add, contentDescription = "Add habit")
-                    }
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                modifier = Modifier
+                    .padding(bottom = 55.dp),
+                onClick = {
+                    navController.navigate(HabitPageScreen.AddEditHabitScreen.route)
                 },
-                scaffoldState = scaffoldState
-            ) { padding ->
-                Box(
+                backgroundColor = MaterialTheme.colors.primary
+            ) {
+                Icon(imageVector = Icons.Default.Add, contentDescription = "Add habit")
+            }
+        },
+        scaffoldState = scaffoldState
+    ) { padding ->
+        Box(
+            modifier = Modifier
+                .drawWithCache {
+                    val shader = RuntimeShader(CUSTOM_SHADER)
+                    val shaderBrush = ShaderBrush(shader)
+                    shader.setFloatUniform("resolution", size.width, size.height)
+                    onDrawBehind {
+                        shader.setColorUniform(
+                            "color",
+                            android.graphics.Color.valueOf(
+                                LightYellow.red, LightYellow.green,
+                                LightYellow
+                                    .blue,
+                                LightYellow.alpha
+                            )
+                        )
+                        shader.setColorUniform(
+                            "color2",
+                            android.graphics.Color.valueOf(
+                                Coral.red,
+                                Coral.green,
+                                Coral.blue,
+                                Coral.alpha
+                            )
+                        )
+                        drawRect(shaderBrush)
+                    }
+                }
+                .fillMaxWidth(),
+            content = {
+                Column(
                     modifier = Modifier
-                        .drawWithCache {
-                            val shader = RuntimeShader(CUSTOM_SHADER)
-                            val shaderBrush = ShaderBrush(shader)
-                            shader.setFloatUniform("resolution", size.width, size.height)
-                            onDrawBehind {
-                                shader.setColorUniform(
-                                    "color",
-                                    android.graphics.Color.valueOf(
-                                        LightYellow.red, LightYellow.green,
-                                        LightYellow
-                                            .blue,
-                                        LightYellow.alpha
-                                    )
-                                )
-                                shader.setColorUniform(
-                                    "color2",
-                                    android.graphics.Color.valueOf(
-                                        Coral.red,
-                                        Coral.green,
-                                        Coral.blue,
-                                        Coral.alpha
-                                    )
-                                )
-                                drawRect(shaderBrush)
-                            }
-                        }
-                        .fillMaxWidth(),
-                    content = {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(8.dp)
+                        .fillMaxSize()
+                        .padding(8.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Your habits",
+                            style = MaterialTheme.typography.h4
+                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically
+                            IconButton(
+                                onClick = {
+                                    viewModel.onEvent(HabitsEvent.ToggleOrderSection)
+                                },
                             ) {
-                                Text(
-                                    text = "Your habits",
-                                    style = MaterialTheme.typography.h4
-                                )
-                                IconButton(
-                                    onClick = {
-                                        viewModel.onEvent(HabitsEvent.ToggleOrderSection)
-                                    },
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Sort,
-                                        contentDescription = "Sort"
-                                    )
-                                }
-                            }
-                            AnimatedVisibility(
-                                visible = state.isHabitOrderSectionVisible,
-                                enter = fadeIn() + slideInVertically(),
-                                exit = fadeOut() + slideOutVertically()
-                            ) {
-                                OrderSection(
-                                    modifier = Modifier
-                                        .fillMaxWidth(),
-                                    habitOrder = state.habitOrder,
-                                    onOrderChange = {
-                                        viewModel.onEvent(HabitsEvent.Order(it))
-                                    }
+                                Icon(
+                                    imageVector = Icons.Default.Sort,
+                                    contentDescription = "Sort"
                                 )
                             }
-                            Spacer(modifier = Modifier.height(8.dp))
-                            LazyColumn(modifier = Modifier.fillMaxSize()) {
-                                items(state.habits) { habit ->
-                                    HabitItem(
-                                        habit = habit,
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .clickable {
-                                                navController.navigate(
-                                                    HabitPageScreen.AddEditHabitScreen.route +
-                                                            "?habitId=${habit.id}&habitColor=${habit.color}"
-                                                )
-                                            },
-                                        onDeleteClick = {
-                                            viewModel.onEvent(HabitsEvent.DeleteHabit(habit))
-                                            scope.launch {
-                                                val result = scaffoldState.snackbarHostState.showSnackbar(
-                                                    message = "Habit deleted",
-                                                    actionLabel = "Undo"
-                                                )
-                                                if (result == SnackbarResult.ActionPerformed) {
-                                                    viewModel.onEvent(HabitsEvent.RestoreHabit)
-                                                }
-                                            }
-                                        }
-                                    )
-                                    Spacer(modifier = Modifier.height(16.dp))
-                                }
+                            IconButton(
+                                onClick = {
+                                    viewModel.onEvent(HabitsEvent.RefreshHabits)
+                                },
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Refresh,
+                                    contentDescription = "Refresh habits"
+                                )
                             }
                         }
                     }
-                )
-
+                    AnimatedVisibility(
+                        visible = state.isHabitOrderSectionVisible,
+                        enter = fadeIn() + slideInVertically(),
+                        exit = fadeOut() + slideOutVertically()
+                    ) {
+                        OrderSection(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            habitOrder = state.habitOrder,
+                            onOrderChange = {
+                                viewModel.onEvent(HabitsEvent.Order(it))
+                            }
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    LazyColumn(modifier = Modifier.fillMaxSize()) {
+                        items(state.habits) { habit ->
+                            HabitItem(
+                                habit = habit,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        navController.navigate(
+                                            HabitPageScreen.AddEditHabitScreen.route +
+                                                    "?habitId=${habit.id}&habitColor=${habit.color}"
+                                        )
+                                    },
+                                onDeleteClick = {
+                                    viewModel.onEvent(HabitsEvent.DeleteHabit(habit))
+                                    scope.launch {
+                                        val result = scaffoldState.snackbarHostState.showSnackbar(
+                                            message = "Habit deleted",
+                                            actionLabel = "Undo"
+                                        )
+                                        if (result == SnackbarResult.ActionPerformed) {
+                                            viewModel.onEvent(HabitsEvent.RestoreHabit)
+                                        }
+                                    }
+                                }
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                        }
+                    }
+                }
             }
-        }
+        )
+    }
+}

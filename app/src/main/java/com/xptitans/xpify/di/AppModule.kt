@@ -10,6 +10,7 @@ import com.xptitans.xpify.feature_xpify.domain.use_case.DeleteHabit
 import com.xptitans.xpify.feature_xpify.domain.use_case.GetHabit
 import com.xptitans.xpify.feature_xpify.domain.use_case.GetHabits
 import com.xptitans.xpify.feature_xpify.domain.use_case.HabitUseCases
+import com.xptitans.xpify.feature_xpify.domain.use_case.RefreshHabits
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -43,7 +44,8 @@ object AppModule {
             getHabits = GetHabits(repository),
             deleteHabit = DeleteHabit(repository),
             addHabit = AddHabit(repository),
-            getHabit = GetHabit(repository)
+            getHabit = GetHabit(repository),
+            refreshHabitsFromAPI = RefreshHabits(repository)
         )
     }
 }

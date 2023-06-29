@@ -61,6 +61,10 @@ class HabitsViewModel @Inject constructor(
                     )
                 }
             }
+
+            is HabitsEvent.RefreshHabits -> {
+                refreshHabits()
+            }
         }
     }
 
@@ -74,5 +78,11 @@ class HabitsViewModel @Inject constructor(
                 )
             }
             .launchIn(viewModelScope)
+    }
+    private fun refreshHabits() {
+        viewModelScope.launch {
+            habitUseCases.refreshHabitsFromAPI()
+            getHabits(state.value.habitOrder)
+        }
     }
 }
