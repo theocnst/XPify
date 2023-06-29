@@ -9,6 +9,7 @@ import com.xptitans.xpify.feature_xpify.presentation.home.components.HomeScreen
 
 @Composable
 fun RootNavigationGraph(navController: NavHostController) {
+
     NavHost(
         navController = navController,
         route = Graph.ROOT,

@@ -318,7 +318,6 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel) {
             navController.navigate(AuthScreen.Register.route)
         }
     )
-
 }
 
 @Preview(showBackground = true)

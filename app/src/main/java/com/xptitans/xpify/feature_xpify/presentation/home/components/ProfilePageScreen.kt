@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.xptitans.xpify.feature_xpify.navigation.graphs.AuthScreen
 import com.xptitans.xpify.feature_xpify.navigation.graphs.Graph
 import com.xptitans.xpify.feature_xpify.presentation.home.ProfilePageViewModel
 
@@ -74,14 +75,14 @@ fun ProfilePageScreenUI(
 @Composable
 fun ProfilePageScreen(
     profilePageViewModel: ProfilePageViewModel = viewModel(),
-    navController: NavController
+    navController: NavController,
 ) {
     ProfilePageScreenUI(
         profilePageViewModel = profilePageViewModel,
         onLogoutClick = {
             profilePageViewModel.logout()
             navController.popBackStack()
-            navController.navigate(Graph.AUTHENTICATION)
+            navController.navigate(AuthScreen.Login.route)
         }
     )
 }
