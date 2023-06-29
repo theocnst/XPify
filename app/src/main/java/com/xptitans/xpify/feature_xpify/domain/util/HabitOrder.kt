@@ -5,5 +5,11 @@ sealed class HabitOrder(
 ){
     class Name(orderType: OrderType): HabitOrder(orderType)
     class XpAmount(orderType: OrderType): HabitOrder(orderType)
-    class Duration(orderType: OrderType): HabitOrder(orderType)
+
+    fun copy(orderType: OrderType): HabitOrder {
+        return when(this){
+            is Name -> Name(orderType)
+            is XpAmount -> XpAmount(orderType)
+        }
+    }
 }

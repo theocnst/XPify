@@ -19,14 +19,12 @@ class GetHabits(
                     when (habitOrder) {
                         is HabitOrder.Name -> habits.sortedBy { it.name.lowercase() }
                         is HabitOrder.XpAmount -> habits.sortedBy { it.xpAmount }
-                        is HabitOrder.Duration -> habits.sortedBy { it.duration }
                     }
                 }
                 is OrderType.Descending -> {
                     when (habitOrder) {
                         is HabitOrder.Name -> habits.sortedByDescending { it.name.lowercase() }
                         is HabitOrder.XpAmount -> habits.sortedByDescending { it.xpAmount }
-                        is HabitOrder.Duration -> habits.sortedByDescending { it.duration }
                     }
                 }
             }

@@ -20,16 +20,8 @@ class HabitRepositoryImpl(
     override fun getHabits(): Flow<List<Habit>> {
         return dao.getHabits()
     }
-
-    override fun getHabitsOrderedByXpAmount(): Flow<List<Habit>> {
-        return dao.getHabitsOrderedByXpAmount()
+    override suspend fun getHabitById(id: Int): Habit? {
+        return dao.getHabitById(id)
     }
 
-    override fun getHabitsOrderedByName(): Flow<List<Habit>> {
-        return dao.getHabitsOrderedByName()
-    }
-
-    override fun getHabitsOrderedByDuration(): Flow<List<Habit>> {
-        return dao.getHabitsOrderedByDuration()
-    }
 }

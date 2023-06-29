@@ -15,6 +15,8 @@ interface HabitDao {
     @Delete
     suspend fun deleteHabit(habit: Habit)
 
+    @Query("SELECT * FROM habit WHERE id = :id")
+    suspend fun getHabitById(id: Int): Habit?
     @Query("SELECT * FROM habit")
     fun getHabits(): Flow<List<Habit>>
 
@@ -23,7 +25,4 @@ interface HabitDao {
 
     @Query("SELECT * FROM habit ORDER BY name ASC")
     fun getHabitsOrderedByName(): Flow<List<Habit>>
-
-    @Query("SELECT * FROM habit ORDER BY duration ASC")
-    fun getHabitsOrderedByDuration(): Flow<List<Habit>>
 }

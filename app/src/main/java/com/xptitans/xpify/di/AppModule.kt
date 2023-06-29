@@ -7,6 +7,7 @@ import com.xptitans.xpify.feature_xpify.data.repository.HabitRepositoryImpl
 import com.xptitans.xpify.feature_xpify.domain.repository.HabitRepository
 import com.xptitans.xpify.feature_xpify.domain.use_case.AddHabit
 import com.xptitans.xpify.feature_xpify.domain.use_case.DeleteHabit
+import com.xptitans.xpify.feature_xpify.domain.use_case.GetHabit
 import com.xptitans.xpify.feature_xpify.domain.use_case.GetHabits
 import com.xptitans.xpify.feature_xpify.domain.use_case.HabitUseCases
 import dagger.Module
@@ -41,7 +42,8 @@ object AppModule {
         return HabitUseCases(
             getHabits = GetHabits(repository),
             deleteHabit = DeleteHabit(repository),
-            addHabit = AddHabit(repository)
+            addHabit = AddHabit(repository),
+            getHabit = GetHabit(repository)
         )
     }
 }

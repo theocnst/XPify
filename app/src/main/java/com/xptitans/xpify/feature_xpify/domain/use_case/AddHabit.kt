@@ -12,11 +12,8 @@ class AddHabit(
         if (habit.name.isBlank()) {
             throw Exception("The name of the habit can't be empty.")
         }
-        if (habit.xpAmount < 0) {
-            throw Exception("The xp amount of the habit can't be less than 0.")
-        }
-        if (habit.duration < 0) {
-            throw Exception("The duration of the habit can't be less than 0.")
+        if (habit.xpAmount.isBlank()) {
+            throw Exception("The xp amount of the habit can't be empty.")
         }
         habitRepository.insertHabit(habit)
     }
