@@ -46,7 +46,6 @@ import com.xptitans.xpify.feature_xpify.navigation.graphs.Graph
 import com.xptitans.xpify.feature_xpify.presentation.auth.LoginViewModel
 import org.intellij.lang.annotations.Language
 
-
 @Language("AGSL")
 val CUSTOM_SHADER = """
     uniform float2 resolution;

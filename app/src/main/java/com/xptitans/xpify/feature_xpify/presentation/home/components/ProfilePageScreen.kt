@@ -81,7 +81,7 @@ fun ProfilePageScreen(
         profilePageViewModel = profilePageViewModel,
         onLogoutClick = {
             profilePageViewModel.logout()
-            navController.popBackStack()
+            navController.popBackStack(Graph.HOME, inclusive = true)
             navController.navigate(AuthScreen.Login.route)
         }
     )
