@@ -32,6 +32,18 @@ class HabitsViewModel @Inject constructor(
 
     fun onEvent(event: HabitsEvent) {
         when (event) {
+            is HabitsEvent.Order -> {
+                val currentHabitOrder = state.value.habitOrder
+                if (currentHabitOrder == event.habitOrder) {
+                    return
+                }
+
+                _state.value = state.value.copy(
+                    habitOrder = event.habitOrder
+                )
+                getHabits(event.habitOrder)
+            }
+
             is HabitsEvent.RestoreHabit -> {
                 viewModelScope.launch {
                     habitUseCases.addHabit(recentlyDeletedHabit ?: return@launch)
@@ -52,19 +64,10 @@ class HabitsViewModel @Inject constructor(
                 )
             }
 
-            is HabitsEvent.Order -> {
-                if (state.value.habitOrder::class == event.habitOrder::class
-                    && state.value.habitOrder.orderType == event.habitOrder.orderType
-                ) {
-                    _state.value = state.value.copy(
-
-                    )
-                }
-            }
-
             is HabitsEvent.RefreshHabits -> {
                 refreshHabits()
             }
+
         }
     }
 
@@ -79,6 +82,7 @@ class HabitsViewModel @Inject constructor(
             }
             .launchIn(viewModelScope)
     }
+
     private fun refreshHabits() {
         viewModelScope.launch {
             habitUseCases.refreshHabitsFromAPI()

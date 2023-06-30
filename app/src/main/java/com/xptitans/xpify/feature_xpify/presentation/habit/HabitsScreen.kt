@@ -42,7 +42,6 @@ fun HabitsScreen(
     val Coral = Color(0xFFF3A397)
     val LightYellow = Color(0xFFF8EE94)
 
-
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(

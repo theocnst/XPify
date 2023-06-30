@@ -1,5 +1,6 @@
 package com.xptitans.xpify.feature_xpify.presentation.habit.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,9 +16,11 @@ import com.xptitans.xpify.feature_xpify.domain.util.OrderType
 @Composable
 fun OrderSection(
     modifier: Modifier = Modifier,
-    habitOrder: HabitOrder = HabitOrder.Name(OrderType.Ascending),
-    onOrderChange: (HabitOrder) -> Unit
+    habitOrder: HabitOrder = HabitOrder.XpAmount(OrderType.Descending),
+    onOrderChange: (HabitOrder) -> Unit,
 ) {
+    Log.d("Current habitOrder: ", "$habitOrder")
+
     Column(
         modifier = modifier
     ) {
@@ -29,6 +32,7 @@ fun OrderSection(
                 selected = habitOrder is HabitOrder.Name,
                 onSelect = {
                     onOrderChange(HabitOrder.Name(habitOrder.orderType))
+                    Log.d("RadioButton1", "HabitOrder.Name")
                 }
             )
             DefaultRadioButton(
@@ -36,9 +40,9 @@ fun OrderSection(
                 selected = habitOrder is HabitOrder.XpAmount,
                 onSelect = {
                     onOrderChange(HabitOrder.XpAmount(habitOrder.orderType))
+                    Log.d("RadioButton2", "HabitOrder.Xp")
                 }
             )
-
         }
         Row(
             modifier = Modifier.fillMaxWidth()
@@ -48,6 +52,7 @@ fun OrderSection(
                 selected = habitOrder.orderType is OrderType.Ascending,
                 onSelect = {
                     onOrderChange(habitOrder.copy(OrderType.Ascending))
+                    Log.d("RadioButton3", "HabitOrder.Asc")
                 }
             )
             DefaultRadioButton(
@@ -55,6 +60,8 @@ fun OrderSection(
                 selected = habitOrder.orderType is OrderType.Descending,
                 onSelect = {
                     onOrderChange(habitOrder.copy(OrderType.Descending))
+                    Log.d("RadioButton4", "HabitOrder.Desc")
+
                 }
             )
         }
