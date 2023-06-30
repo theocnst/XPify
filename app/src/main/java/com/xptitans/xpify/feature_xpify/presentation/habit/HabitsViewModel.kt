@@ -67,7 +67,6 @@ class HabitsViewModel @Inject constructor(
             is HabitsEvent.RefreshHabits -> {
                 refreshHabits()
             }
-
         }
     }
 

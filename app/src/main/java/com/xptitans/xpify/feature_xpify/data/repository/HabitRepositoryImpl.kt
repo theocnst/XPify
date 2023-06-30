@@ -1,5 +1,6 @@
 package com.xptitans.xpify.feature_xpify.data.repository
 
+import android.util.Log
 import com.xptitans.xpify.feature_xpify.data.data_source.ApiService
 import com.xptitans.xpify.feature_xpify.data.data_source.HabitDao
 import com.xptitans.xpify.feature_xpify.domain.model.Habit
@@ -21,10 +22,38 @@ class HabitRepositoryImpl(
     private val apiService = retrofit.create(ApiService::class.java)
 
     override suspend fun insertHabit(habit: Habit) {
-        dao.insertHabit(habit)
+        if (habit.id == null) {
+            // If new habit, attempt to insert into API and then into the Room database
+            try {
+                val createdHabit = apiService.insertHabit(habit)
+                dao.insertHabit(createdHabit)
+            } catch (e: Exception) {
+                Log.d("Error inserting habit into the API:", "${e.message}")
+                dao.insertHabit(habit)
+            }
+        } else {
+            // Existing habit, so update in both the API and Room database
+            try {
+                val updatedHabit = apiService.updateHabit(habit.id, habit)
+                dao.insertHabit(updatedHabit)
+            } catch (e: Exception) {
+                Log.d("Error updating habit in the API:", "${e.message}")
+
+                // When restoring a deleted habit
+                val createdHabit = apiService.insertHabit(habit)
+                dao.insertHabit(createdHabit)
+            }
+        }
     }
 
     override suspend fun deleteHabit(habit: Habit) {
+        try {
+            if (habit.id != null) {
+                apiService.deleteHabit(habit.id)
+            }
+        } catch (e: Exception) {
+            Log.d("Error deleting habit from the API:", " ${e.message}")
+        }
         dao.deleteHabit(habit)
     }
 

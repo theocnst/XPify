@@ -10,7 +10,7 @@ data class Habit(
     @PrimaryKey(autoGenerate = true) val id: Int? = null,
     val name: String,
     val xpAmount: String,
-    val color: Int = Color.LightGray.value.toInt(),
+    val color: Int,
 ) {
     companion object {
         val habitColors = listOf(RedOrange, LightGreen, Violet, BabyBlue, RedPink)
