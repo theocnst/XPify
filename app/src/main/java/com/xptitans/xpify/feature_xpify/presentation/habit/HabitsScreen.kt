@@ -46,7 +46,7 @@ fun HabitsScreen(
         floatingActionButton = {
             FloatingActionButton(
                 modifier = Modifier
-                    .padding(bottom = 55.dp),
+                    .padding(bottom = 5.dp),
                 onClick = {
                     navController.navigate(HabitPageScreen.AddEditHabitScreen.route)
                 },

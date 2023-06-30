@@ -2,8 +2,11 @@ package com.xptitans.xpify.feature_xpify.presentation.home.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -41,8 +44,10 @@ fun HomeScreen() {
                 BottomBar(navController = navController)
             }
         }
-    ) {
-        BottomNavGraph(navController = navController)
+    ) { innerPadding ->
+        Box(modifier = Modifier.padding(innerPadding)) {
+            BottomNavGraph(navController = navController, modifier = Modifier.fillMaxSize())
+        }
     }
 }
 

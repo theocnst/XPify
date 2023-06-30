@@ -3,6 +3,7 @@ package com.xptitans.xpify.feature_xpify.navigation.graphs
 import HabitsScreen
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -17,14 +18,14 @@ import com.xptitans.xpify.feature_xpify.presentation.auth.components.LoginScreen
 import com.xptitans.xpify.feature_xpify.presentation.auth.components.RegisterScreen
 import com.xptitans.xpify.feature_xpify.presentation.home.components.FirstPageScreen
 import com.xptitans.xpify.feature_xpify.presentation.home.components.ProfilePageScreen
-
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun BottomNavGraph(navController: NavHostController) {
+fun BottomNavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(
         navController = navController,
         route = Graph.HOME,
-        startDestination = BottomBarScreen.FirstPage.route
+        startDestination = BottomBarScreen.FirstPage.route,
+        modifier = modifier // passing the modifier to NavHost
     ) {
         composable(BottomBarScreen.FirstPage.route) {
             FirstPageScreen(navController = navController)
